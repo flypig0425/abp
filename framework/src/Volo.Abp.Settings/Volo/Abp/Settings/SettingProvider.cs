@@ -5,6 +5,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace Volo.Abp.Settings
 {
+    // 获取Setting值
     public class SettingProvider : ISettingProvider, ITransientDependency
     {
         protected ISettingDefinitionManager SettingDefinitionManager { get; }
@@ -21,9 +22,12 @@ namespace Volo.Abp.Settings
             SettingValueProviderManager = settingValueProviderManager;
         }
 
+        // 获取指定Name的配置的值
         public virtual async Task<string> GetOrNullAsync(string name)
         {
             var setting = SettingDefinitionManager.Get(name);
+
+            // 按优先级进行排序
             var providers = Enumerable
                 .Reverse(SettingValueProviderManager.Providers);
 
@@ -37,12 +41,14 @@ namespace Volo.Abp.Settings
             var value = await GetOrNullValueFromProvidersAsync(providers, setting);
             if (value != null && setting.IsEncrypted)
             {
+                // 如果配置数据位加密，需要先解密数据
                 value = SettingEncryptionService.Decrypt(setting, value);
             }
 
             return value;
         }
 
+        //
         public async Task<List<SettingValue>> GetAllAsync(string[] names)
         {
             var result = new Dictionary<string, SettingValue>();
@@ -95,6 +101,7 @@ namespace Volo.Abp.Settings
             IEnumerable<ISettingValueProvider> providers,
             SettingDefinition setting)
         {
+            // 按照优先级的高低来获取配置数据 U > T > G > C > D
             foreach (var provider in providers)
             {
                 var value = await provider.GetOrNullAsync(setting);

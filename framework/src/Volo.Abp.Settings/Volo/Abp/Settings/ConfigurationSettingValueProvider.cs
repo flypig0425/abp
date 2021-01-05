@@ -6,6 +6,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace Volo.Abp.Settings
 {
+    // 从.net core configuration system 中获取Setting的值
     public class ConfigurationSettingValueProvider : ISettingValueProvider, ITransientDependency
     {
         public const string ConfigurationNamePrefix = "Settings:";

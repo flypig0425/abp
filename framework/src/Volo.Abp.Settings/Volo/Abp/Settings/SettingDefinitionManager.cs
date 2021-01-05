@@ -8,6 +8,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace Volo.Abp.Settings
 {
+    // 代码中配置Setting 的定义
     public class SettingDefinitionManager : ISettingDefinitionManager, ISingletonDependency
     {
         protected Lazy<IDictionary<string, SettingDefinition>> SettingDefinitions { get; }

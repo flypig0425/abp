@@ -4,12 +4,17 @@ using JetBrains.Annotations;
 
 namespace Volo.Abp.Settings
 {
-    public interface ISettingProvider
-    {
-        Task<string> GetOrNullAsync([NotNull]string name);
+  // Use the ISettingProvider instead of the ISettingManager if you only need to read the setting values, 
+  // because it implements caching and supports all deployment scenarios.
+  // You can use the ISettingManager if you are creating a setting management UI.  
 
-        Task<List<SettingValue>> GetAllAsync([NotNull]string[] names);
+  // ISettingManager 使用了cache系统来提高性能
+  public interface ISettingProvider
+  {
+    Task<string> GetOrNullAsync([NotNull] string name);
 
-        Task<List<SettingValue>> GetAllAsync();
-    }
+    Task<List<SettingValue>> GetAllAsync([NotNull] string[] names);
+
+    Task<List<SettingValue>> GetAllAsync();
+  }
 }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace Volo.Abp.Settings
 {
+    // 从代码中获取Default的值
     public class DefaultValueSettingValueProvider : SettingValueProvider
     {
         public const string ProviderName = "D";
